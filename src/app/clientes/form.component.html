@@ -1,0 +1,81 @@
+    <ul class="alert alert-danger" *ngIf="errores">
+        <li *ngFor="let err of errores">{{ err }}</li>
+    </ul>
+<div class="card bg-dark text-white">
+    <div class="card-header"></div>
+    <div class="card-body">
+        <form #userform="ngForm">
+
+            <div class="form-group row">
+                <label for="" class="col-form-label col-sm-2">Nombre:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre"  #nombre="ngModel"> <!-- required minlength="3" -->
+                    <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                        <div *ngIf="nombre.errors.required">
+                            El nombre es requerido
+                        </div>
+                        <div *ngIf="nombre.errors.minlength">
+                            El nombre debe tener minimo 3 carateres
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-form-label col-sm-2">Apellido:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" #apellido="ngModel"> <!-- required minlength="2"-->
+                    <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                        <div *ngIf="apellido.errors.required">
+                            El apellido es requerido
+                        </div>
+                        <div *ngIf="apellido.errors.minlength">
+                            El apellido debe tener minimo 2 caracteres
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="apellido" class="col-form-label col-sm-2">Email:</label>
+                <div class="col-sm-6">
+                    <input type="email" class="form-control" [(ngModel)]="cliente.email" name="email" #email=ngModel> <!-- required email -->
+                    <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                        <div *ngIf="email.errors.required">
+                            El correo es requerido
+                        </div>
+                        <div *ngIf="email.errors.email">
+                            El correo debe tener un formato valido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="createAt" class="col-form-label col-sm-2">Fecha:</label>
+                <div class="col-sm-6">
+                    <input type="date" class="form-control" [(ngModel)]="cliente.createAt" name="createAt">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="createAt" class="col-form-label col-sm-2">Region:</label>
+                <div class="col-sm-6">
+                    <select [compareWith]="compararRegion" class="form-control" [(ngModel)]="cliente.region" name="region">
+                        <option [ngValue]="undefined">--- Seleccionar una region ---</option>
+                        <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary" role="button" (click)="!cliente.id? create() : update()" [disabled]="!userform.form.valid">
+                        {{cliente.id ? 'Editar' : 'Crear'}}
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
